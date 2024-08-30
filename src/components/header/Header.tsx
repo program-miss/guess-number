@@ -3,7 +3,7 @@ import Input from './Input';
 
 const Header: React.FC = () => {
   return (
-    <header className="flex-row">
+    <header className="flex items-center justify-center gap-4">
       <Input label="Points" step={25} defaultValue={50} />
       <Input label="Multiplier" step={0.25} defaultValue={1.0} />
       <ImageText image="/medal.png" text="1,000" />

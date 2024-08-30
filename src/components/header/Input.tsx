@@ -24,7 +24,7 @@ const Input: React.FC<HeaderInputProps> = ({
   };
 
   return (
-    <div className="flex-column">
+    <div className="flex flex-col items-center justify-center">
       <small>{label}</small>
       <div>
         <button onClick={handleDecrement}>⬇️</button>
