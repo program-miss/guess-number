@@ -1,7 +1,7 @@
 import { HeaderInputProps } from '@/types';
 import React, { useState } from 'react';
 
-const Input: React.FC<HeaderInputProps> = ({
+const HeaderInput: React.FC<HeaderInputProps> = ({
   label,
   step,
   defaultValue = 0,
@@ -27,12 +27,12 @@ const Input: React.FC<HeaderInputProps> = ({
     <div className="flex flex-col items-center justify-center">
       <small>{label}</small>
       <div>
-        <button onClick={handleDecrement}>⬇️</button>
+        <button onClick={handleDecrement}>▼</button>
         <input type="number" value={value} onChange={handleChange} />
-        <button onClick={handleIncrement}>⬆️</button>
+        <button onClick={handleIncrement}>▲</button>
       </div>
     </div>
   );
 };
 
-export default Input;
+export default HeaderInput;
