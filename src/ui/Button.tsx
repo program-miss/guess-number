@@ -10,7 +10,7 @@ const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
       variant="shadow"
       onClick={onClick}
     >
-      Send
+      {text}
     </ButtonLibrary>
   );
 };
