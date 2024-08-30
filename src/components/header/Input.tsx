@@ -1,4 +1,3 @@
-'use client';
 import { HeaderInputProps } from '@/types';
 import React, { useState } from 'react';
 

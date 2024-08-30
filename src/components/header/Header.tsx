@@ -1,7 +1,7 @@
 import ImageText from './ImageText';
 import Input from './Input';
 
-function Header() {
+const Header: React.FC = () => {
   return (
     <header className="flex-row">
       <Input label="Points" step={25} defaultValue={50} />
@@ -11,6 +11,6 @@ function Header() {
       <ImageText image="/clock.png" text="21.30" />
     </header>
   );
-}
+};
 
 export default Header;
