@@ -25,3 +25,13 @@ export interface RoundTableProps {
 export interface ChartProps {
   number: number;
 }
+
+export interface ImageLabelProps {
+  image: string;
+  text: string;
+}
+
+export interface ButtonProps {
+  text: string;
+  onClick: () => void;
+}

@@ -1,15 +1,19 @@
-import Image from 'next/image';
 import { users } from '../../data';
+import Chat from './Chat';
+import ImageLabel from './ImageLabel';
 import RankingTable from './RankingTable';
 
 const Footer: React.FC = () => {
   return (
-    <footer>
-      <div className="flex items-center gap-1">
-        <Image src="/ranking.png" alt="ranking" width={20} height={20} />
-        <label>Ranking</label>
+    <footer className="flex justify-center items-center gap-1">
+      <div>
+        <ImageLabel image="ranking" text="Ranking" />
+        <RankingTable users={users} />
       </div>
-      <RankingTable users={users} />
+      <div>
+        <ImageLabel image="chat" text="Chat" />
+        <Chat />
+      </div>
     </footer>
   );
 };
