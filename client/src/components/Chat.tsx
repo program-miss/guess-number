@@ -1,20 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 import Button from '../ui/Button';
+
+const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || '';
+const socket = io(serverUrl);
 
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<string[]>([]);
   const [input, setInput] = useState<string>('');
 
-  const handleSend = () => {
+  useEffect(() => {
+    socket.on('message', (message: string) => {
+      setMessages((prev) => [...prev, message]);
+    });
+
+    return () => {
+      socket.off('message');
+    };
+  }, []);
+
+  const sendMessage = () => {
     if (input.trim()) {
-      setMessages([...messages, input]);
+      socket.emit('message', input);
       setInput('');
     }
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSend();
+      sendMessage();
     }
   };
 
@@ -33,7 +47,7 @@ const Chat: React.FC = () => {
           onKeyUp={handleKeyPress}
           placeholder="Type your message..."
         />
-        <Button text="Send" onClick={handleSend} />
+        <Button text="Send" onClick={sendMessage} />
       </div>
     </div>
   );
