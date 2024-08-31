@@ -16,6 +16,11 @@ export interface User {
   multiplier: number;
 }
 
+export interface RoundData {
+  id: string;
+  crashValue: number;
+}
+
 export interface RoundTableProps {
   users: User[];
 }

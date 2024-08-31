@@ -1,8 +1,14 @@
+import { useGameContext } from '@/context/GameContext';
 import React, { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
+import { serverUrl } from '../../data';
 import { ChartProps } from '../types';
+
+const socket = io(serverUrl);
 
 const Chart: React.FC<ChartProps> = ({ number }) => {
   const [currentValue, setCurrentValue] = useState('0.00');
+  const { roundData } = useGameContext();
 
   useEffect(() => {
     let start: number | null = null;
@@ -21,6 +27,9 @@ const Chart: React.FC<ChartProps> = ({ number }) => {
 
       if (progress < duration) {
         requestAnimationFrame(animate);
+      } else {
+        // When the animation is complete and the value has reached the end
+        socket.emit('end-round', roundData?.id);
       }
     };
 

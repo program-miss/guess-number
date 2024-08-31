@@ -27,8 +27,11 @@ export class SocketGateway {
   handleStart(
     @MessageBody() data: { points: number; multiplier: number },
   ): void {
-    const crashValue = generateRandomNumber();
-    this.server.emit('round-started', crashValue);
+    const roundData = {
+      id: uuidv4(),
+      crashValue: generateRandomNumber(),
+    };
+    this.server.emit('round-started', roundData);
   }
 
   @SubscribeMessage('send-chat-message')
@@ -38,7 +41,7 @@ export class SocketGateway {
   }
 
   @SubscribeMessage('register-user')
-  handleAcceptName(@MessageBody() name: string): void {
+  handleRegisterUser(@MessageBody() name: string): void {
     if (!name) return;
     const newUser = {
       name,
@@ -47,8 +50,15 @@ export class SocketGateway {
       multiplier: 1,
     };
     users.push(newUser);
-    
+
     // Send users for table Current round
     this.server.emit('users-updated', { newUser, users });
+  }
+
+  @SubscribeMessage('end-round')
+  handleRoundEnd(@MessageBody() roundId: string): void {
+    if (!roundId) return;
+    // Send users for tables
+    this.server.emit('round-updated', users);
   }
 }

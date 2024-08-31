@@ -1,4 +1,5 @@
 import { useGameContext } from '@/context/GameContext';
+import { RoundData } from '@/types';
 import { useEffect } from 'react';
 import io from 'socket.io-client';
 import { serverUrl, users } from '../../data';
@@ -11,7 +12,7 @@ import Welcome from './Welcome';
 const socket = io(serverUrl);
 
 const Main: React.FC = () => {
-  const { points, multiplier, myData, crashValue, setCrashValue } =
+  const { points, multiplier, myData, roundData, setRoundData } =
     useGameContext();
 
   const handleStart = () => {
@@ -19,8 +20,8 @@ const Main: React.FC = () => {
   };
 
   useEffect(() => {
-    socket.on('round-started', (value: number) => {
-      setCrashValue(value);
+    socket.on('round-started', (roundDataFromDB: RoundData) => {
+      setRoundData(roundDataFromDB);
     });
 
     return () => {
@@ -41,7 +42,7 @@ const Main: React.FC = () => {
           <Welcome />
         )}
       </div>
-      <Chart number={crashValue || 0} />
+      <Chart number={roundData?.crashValue || 0} />
     </main>
   );
 };

@@ -1,24 +1,13 @@
 import { useGameContext } from '@/context/GameContext';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { io } from 'socket.io-client';
+import { columnsRoundTable as columns, serverUrl } from '../../data';
 import { RoundTableProps, User } from '../types';
 
-const columns = [
-  {
-    key: 'name',
-    label: 'Name',
-  },
-  {
-    key: 'points',
-    label: 'Points',
-  },
-  {
-    key: 'multiplier',
-    label: 'Multiplier',
-  },
-];
+const socket = io(serverUrl);
 
 const RoundTable: React.FC<RoundTableProps> = () => {
-  const { users, myData, crashValue } = useGameContext();
+  const { users, myData, roundData, setUsers } = useGameContext();
 
   const sortedUsers = useMemo(
     () =>
@@ -35,14 +24,25 @@ const RoundTable: React.FC<RoundTableProps> = () => {
           return 'You';
         }
 
-        if (!crashValue && columnKey !== 'name') {
+        if (!roundData && columnKey !== 'name') {
           return '-';
         }
 
         return user[columnKey as keyof User];
       },
-    [myData, crashValue]
+    [myData, roundData]
   );
+
+  useEffect(() => {
+    socket.on('round-updated', (usersFromDB: User[]) => {
+      console.log('usersFromDB', usersFromDB);
+      setUsers(usersFromDB);
+    });
+
+    return () => {
+      socket.off('round-updated');
+    };
+  }, []);
 
   return (
     <table aria-label="current round table">

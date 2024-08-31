@@ -37,3 +37,18 @@ export const users = [
 ];
 
 export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || '';
+
+export const columnsRoundTable = [
+  {
+    key: 'name',
+    label: 'Name',
+  },
+  {
+    key: 'points',
+    label: 'Points',
+  },
+  {
+    key: 'multiplier',
+    label: 'Multiplier',
+  },
+];
