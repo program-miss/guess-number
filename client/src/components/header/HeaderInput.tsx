@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import { useGameContext } from '@/context/GameContext';
+import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
+import React from 'react';
 import { HeaderInputProps } from '../../types';
 
 const HeaderInput: React.FC<HeaderInputProps> = ({
-  label,
+  type,
   step,
   defaultValue = 0,
 }) => {
-  const [value, setValue] = useState<number>(defaultValue);
+  const { points, setPoints, multiplier, setMultiplier } = useGameContext();
+
+  const value = type === 'points' ? points : multiplier;
+  const setValue = type === 'points' ? setPoints : setMultiplier;
 
   const handleIncrement = () => {
-    setValue((prevValue) => parseFloat((prevValue + step).toFixed(2)));
+    setValue(parseFloat((value + step).toFixed(2)));
   };
 
   const handleDecrement = () => {
-    setValue((prevValue) => parseFloat((prevValue - step).toFixed(2)));
+    setValue(parseFloat((value - step).toFixed(2)));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +30,7 @@ const HeaderInput: React.FC<HeaderInputProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <small>{label}</small>
+      <small>{capitalizeFirstLetter(type)}</small>
       <div>
         <button onClick={handleDecrement}>▼</button>
         <input type="number" value={value} onChange={handleChange} />

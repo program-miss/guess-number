@@ -1,5 +1,5 @@
 export interface HeaderInputProps {
-  label: string;
+  type: 'points' | 'multiplier';
   step: number;
   defaultValue?: number;
 }
