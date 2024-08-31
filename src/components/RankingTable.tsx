@@ -28,7 +28,7 @@ const RankingTable: React.FC<RoundTableProps> = ({ users }) => {
   const sortedUsers = users.sort((a, b) => b.score - a.score);
 
   return (
-    <Table>
+    <Table aria-label="ranking table">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>

@@ -26,7 +26,7 @@ const columns = [
 
 const RoundTable: React.FC<RoundTableProps> = ({ users }) => {
   return (
-    <Table>
+    <Table aria-label="current round table">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>

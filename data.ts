@@ -40,3 +40,6 @@ export const users = [
     score: 0,
   },
 ];
+
+export const maxRandomValue = 10;
+export const minRandomValue = 0;
