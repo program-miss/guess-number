@@ -1,4 +1,3 @@
-import { RoundTableProps } from '@/types';
 import {
   Table,
   TableBody,
@@ -8,6 +7,7 @@ import {
   TableRow,
   getKeyValue,
 } from '@nextui-org/react';
+import { RoundTableProps } from '../types';
 
 const columns = [
   {

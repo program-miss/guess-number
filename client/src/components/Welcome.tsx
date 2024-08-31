@@ -1,5 +1,5 @@
-import Button from '@/ui/Button';
 import { useState } from 'react';
+import Button from '../ui/Button';
 
 const Welcome: React.FC = () => {
   const [value, setValue] = useState<string>('');

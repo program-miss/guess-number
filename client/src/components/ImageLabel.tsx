@@ -1,5 +1,5 @@
-import { ImageLabelProps } from '@/types';
 import Image from 'next/image';
+import { ImageLabelProps } from '../types';
 
 const ImageLabel: React.FC<ImageLabelProps> = ({ image, text }) => {
   return (

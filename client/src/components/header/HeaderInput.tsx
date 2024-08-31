@@ -1,5 +1,5 @@
-import { HeaderInputProps } from '@/types';
 import React, { useState } from 'react';
+import { HeaderInputProps } from '../../types';
 
 const HeaderInput: React.FC<HeaderInputProps> = ({
   label,

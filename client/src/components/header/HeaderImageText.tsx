@@ -1,5 +1,5 @@
-import { HeaderImageTextProps } from '@/types';
 import Image from 'next/image';
+import { HeaderImageTextProps } from '../../types';
 
 const HeaderImageText: React.FC<HeaderImageTextProps> = ({ image, text }) => {
   return (

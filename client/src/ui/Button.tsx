@@ -1,5 +1,5 @@
-import { ButtonProps } from '@/types';
 import { Button as ButtonLibrary } from '@nextui-org/react';
+import { ButtonProps } from '../types';
 
 const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
   return (

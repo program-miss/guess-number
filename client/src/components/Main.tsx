@@ -1,7 +1,7 @@
-import Button from '@/ui/Button';
-import { generateRandomNumber } from '@/utils/generateRandomNumber';
 import { useState } from 'react';
 import { users } from '../../data';
+import Button from '../ui/Button';
+import { generateRandomNumber } from '../utils/generateRandomNumber';
 import Chart from './Chart';
 import ImageLabel from './ImageLabel';
 import RoundTable from './RoundTable';
@@ -13,7 +13,6 @@ const Main: React.FC = () => {
     setRandomValue(generateRandomNumber());
   };
 
-  console.log('randomValue', randomValue);
   return (
     <main className="flex items-center justify-center gap-1">
       <Welcome />
