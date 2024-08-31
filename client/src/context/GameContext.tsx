@@ -1,3 +1,4 @@
+import { User } from '@/types';
 import React, { ReactNode, createContext, useContext, useState } from 'react';
 
 interface GameContextProps {
@@ -5,8 +6,12 @@ interface GameContextProps {
   setPoints: (points: number) => void;
   multiplier: number;
   setMultiplier: (multiplier: number) => void;
-  name: string;
-  setName: (name: string) => void;
+  myData: User | null;
+  setMyData: (myData: User) => void;
+  users: User[];
+  setUsers: (users: User[]) => void;
+  crashValue: number | null;
+  setCrashValue: (crashValue: number | null) => void;
 }
 
 const GameContext = createContext<GameContextProps | undefined>(undefined);
@@ -16,7 +21,9 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [points, setPoints] = useState<number>(50);
   const [multiplier, setMultiplier] = useState<number>(1.0);
-  const [name, setName] = useState<string>('');
+  const [myData, setMyData] = useState<User | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [crashValue, setCrashValue] = useState<number | null>(null);
 
   return (
     <GameContext.Provider
@@ -25,8 +32,12 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
         setPoints,
         multiplier,
         setMultiplier,
-        name,
-        setName,
+        myData,
+        setMyData,
+        users,
+        setUsers,
+        crashValue,
+        setCrashValue,
       }}
     >
       {children}

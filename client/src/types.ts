@@ -11,11 +11,9 @@ export interface HeaderImageTextProps {
 
 export interface User {
   id: string;
-  no: number;
   name: string;
-  point: number;
+  points: number;
   multiplier: number;
-  score: number;
 }
 
 export interface RoundTableProps {

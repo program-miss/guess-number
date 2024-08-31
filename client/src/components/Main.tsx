@@ -1,5 +1,5 @@
 import { useGameContext } from '@/context/GameContext';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import io from 'socket.io-client';
 import { serverUrl, users } from '../../data';
 import Button from '../ui/Button';
@@ -11,31 +11,34 @@ import Welcome from './Welcome';
 const socket = io(serverUrl);
 
 const Main: React.FC = () => {
-  const { points, multiplier, name } = useGameContext();
-  const [crashValue, setCrashValue] = useState<number | null>(null);
+  const { points, multiplier, myData, crashValue, setCrashValue } =
+    useGameContext();
 
   const handleStart = () => {
-    socket.emit('start', { points, multiplier });
+    socket.emit('place-bet', { points, multiplier });
   };
 
   useEffect(() => {
-    socket.on('crashValue', (value: number) => {
+    socket.on('round-started', (value: number) => {
       setCrashValue(value);
     });
 
     return () => {
-      socket.off('crashValue');
+      socket.off('round-started');
     };
   }, []);
 
   return (
     <main className="flex items-center justify-center gap-1">
-      {!name && <Welcome />}
-      <div>
-        <Button text="Start" onClick={handleStart} />
-        <ImageLabel image="trophy" text="Current Round" />
-        <RoundTable users={users} />
-      </div>
+      {myData ? (
+        <div>
+          <Button text="Start" onClick={handleStart} />
+          <ImageLabel image="trophy" text="Current Round" />
+          <RoundTable users={users} />
+        </div>
+      ) : (
+        <Welcome />
+      )}
       <Chart number={crashValue || 0} />
     </main>
   );

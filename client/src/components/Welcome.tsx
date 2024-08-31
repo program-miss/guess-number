@@ -7,24 +7,26 @@ import Button from '../ui/Button';
 const socket = io(serverUrl);
 
 const Welcome: React.FC = () => {
-  const { setName } = useGameContext();
   const [value, setValue] = useState<string>('');
+  const { setUsers, setMyData } = useGameContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
-  const handleAcceptName = () => {
-    socket.emit('name', value);
+  const handleRegisterUser = () => {
+    if (!value) return;
+    socket.emit('register-user', value);
   };
 
   useEffect(() => {
-    socket.on('name', (message: string) => {
-      setName(message);
+    socket.on('users-updated', ({ newUser, users }) => {
+      setUsers(users);
+      setMyData(newUser);
     });
 
     return () => {
-      socket.off('name');
+      socket.off('users-updated');
     };
   }, []);
 
@@ -34,7 +36,7 @@ const Welcome: React.FC = () => {
       <div className="flex flex-col items-center justify-center gap-4">
         <label>Please Insert Your Name</label>
         <input value={value} onChange={handleChange} />
-        <Button text="Accept" onClick={handleAcceptName} />
+        <Button text="Accept" onClick={handleRegisterUser} />
       </div>
     </div>
   );

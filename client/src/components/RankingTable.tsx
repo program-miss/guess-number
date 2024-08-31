@@ -25,19 +25,21 @@ const columns = [
 ];
 
 const RankingTable: React.FC<RoundTableProps> = ({ users }) => {
-  const sortedUsers = users.sort((a, b) => b.score - a.score);
-
   return (
     <Table aria-label="ranking table">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
-      <TableBody items={sortedUsers}>
+      <TableBody items={users}>
         {(user) => (
           <TableRow key={user.id}>
-            {(columnKey) => (
-              <TableCell>{getKeyValue(user, columnKey)}</TableCell>
-            )}
+            {(columnKey) =>
+              columnKey === 'no' ? (
+                <TableCell>index</TableCell>
+              ) : (
+                <TableCell>{getKeyValue(user, columnKey)}</TableCell>
+              )
+            }
           </TableRow>
         )}
       </TableBody>

@@ -10,18 +10,18 @@ const Chat: React.FC = () => {
   const [input, setInput] = useState<string>('');
 
   useEffect(() => {
-    socket.on('message', (message: string) => {
+    socket.on('chat-message-received', (message: string) => {
       setMessages((prev) => [...prev, message]);
     });
 
     return () => {
-      socket.off('message');
+      socket.off('chat-message-received');
     };
   }, []);
 
   const handleSendMessage = () => {
     if (input.trim()) {
-      socket.emit('message', input);
+      socket.emit('send-chat-message', input);
       setInput('');
     }
   };

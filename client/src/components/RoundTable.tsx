@@ -1,3 +1,4 @@
+import { useGameContext } from '@/context/GameContext';
 import {
   Table,
   TableBody,
@@ -7,7 +8,8 @@ import {
   TableRow,
   getKeyValue,
 } from '@nextui-org/react';
-import { RoundTableProps } from '../types';
+import { useMemo } from 'react';
+import { RoundTableProps, User } from '../types';
 
 const columns = [
   {
@@ -15,8 +17,8 @@ const columns = [
     label: 'Name',
   },
   {
-    key: 'point',
-    label: 'Point',
+    key: 'points',
+    label: 'Points',
   },
   {
     key: 'multiplier',
@@ -24,17 +26,46 @@ const columns = [
   },
 ];
 
-const RoundTable: React.FC<RoundTableProps> = ({ users }) => {
+const RoundTable: React.FC<RoundTableProps> = () => {
+  const { users, myData, crashValue } = useGameContext();
+
+  const sortedUsers = useMemo(
+    () =>
+      myData
+        ? [myData, ...users.filter((user) => user.id !== myData.id)]
+        : users,
+    [users, myData]
+  );
+
+  const getCellData = useMemo(
+    () =>
+      (user: User, columnKey: any): string | number => {
+        if (columnKey === 'name' && user.id === myData?.id) {
+          return 'You';
+        }
+
+        if (
+          !crashValue &&
+          (columnKey === 'points' || columnKey === 'multiplier')
+        ) {
+          return '-';
+        }
+
+        return getKeyValue(user, columnKey);
+      },
+    [myData, crashValue]
+  );
+
   return (
     <Table aria-label="current round table">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
-      <TableBody items={users}>
+      <TableBody items={sortedUsers}>
         {(user) => (
           <TableRow key={user.id}>
             {(columnKey) => (
-              <TableCell>{getKeyValue(user, columnKey)}</TableCell>
+              <TableCell>{getCellData(user, columnKey)}</TableCell>
             )}
           </TableRow>
         )}
