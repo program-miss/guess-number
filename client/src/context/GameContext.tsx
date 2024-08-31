@@ -5,6 +5,8 @@ interface GameContextProps {
   setPoints: (points: number) => void;
   multiplier: number;
   setMultiplier: (multiplier: number) => void;
+  name: string;
+  setName: (name: string) => void;
 }
 
 const GameContext = createContext<GameContextProps | undefined>(undefined);
@@ -14,10 +16,18 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [points, setPoints] = useState<number>(50);
   const [multiplier, setMultiplier] = useState<number>(1.0);
+  const [name, setName] = useState<string>('');
 
   return (
     <GameContext.Provider
-      value={{ points, setPoints, multiplier, setMultiplier }}
+      value={{
+        points,
+        setPoints,
+        multiplier,
+        setMultiplier,
+        name,
+        setName,
+      }}
     >
       {children}
     </GameContext.Provider>

@@ -1,18 +1,17 @@
 import { useGameContext } from '@/context/GameContext';
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import { users } from '../../data';
+import { serverUrl, users } from '../../data';
 import Button from '../ui/Button';
 import Chart from './Chart';
 import ImageLabel from './ImageLabel';
 import RoundTable from './RoundTable';
 import Welcome from './Welcome';
 
-const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || '';
 const socket = io(serverUrl);
 
 const Main: React.FC = () => {
-  const { points, multiplier } = useGameContext();
+  const { points, multiplier, name } = useGameContext();
   const [crashValue, setCrashValue] = useState<number | null>(null);
 
   const handleStart = () => {
@@ -31,7 +30,7 @@ const Main: React.FC = () => {
 
   return (
     <main className="flex items-center justify-center gap-1">
-      <Welcome />
+      {!name && <Welcome />}
       <div>
         <Button text="Start" onClick={handleStart} />
         <ImageLabel image="trophy" text="Current Round" />

@@ -40,3 +40,5 @@ export const users = [
     score: 0,
   },
 ];
+
+export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || '';

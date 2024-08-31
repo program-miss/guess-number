@@ -21,17 +21,25 @@ export class SocketGateway {
   @WebSocketServer()
   server: Server;
 
-  @SubscribeMessage('message')
-  handleMessage(@MessageBody() message: string): void {
-    console.log('Message received:', message);
-    this.server.emit('message', message);
-  }
-
   @SubscribeMessage('start')
   handleStart(
     @MessageBody() data: { points: number; multiplier: number },
   ): void {
-    const crashValue = generateRandomNumber()
+    const crashValue = generateRandomNumber();
+    // Save points and multiplier to the DB
     this.server.emit('crashValue', crashValue);
+  }
+
+  @SubscribeMessage('message')
+  handleMessage(@MessageBody() message: string): void {
+    console.log('Message received:', message);
+    // Save message to the DB
+    this.server.emit('message', message);
+  }
+
+  @SubscribeMessage('name')
+  handleAcceptName(@MessageBody() name: string): void {
+    // Save name to the DB
+    this.server.emit('name', name);
   }
 }
