@@ -21,10 +21,6 @@ export interface RoundData {
   crashValue: number;
 }
 
-export interface RoundTableProps {
-  users: User[];
-}
-
 export interface ChartProps {
   number: number;
 }
@@ -37,4 +33,16 @@ export interface ImageLabelProps {
 export interface ButtonProps {
   text: string;
   onClick: () => void;
+}
+
+export interface Column {
+  key: string;
+  label: string;
+}
+
+export interface TableProps<T> {
+  columns: Column[];
+  items: T[];
+  getCellData: (item: T, columnKey: string) => React.ReactNode;
+  hasNo?: boolean;
 }

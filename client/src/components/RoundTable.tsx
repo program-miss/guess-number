@@ -1,12 +1,13 @@
 import { useGameContext } from '@/context/GameContext';
+import Table from '@/ui/Table';
 import { useEffect, useMemo } from 'react';
 import { io } from 'socket.io-client';
 import { columnsRoundTable as columns, serverUrl } from '../../data';
-import { RoundTableProps, User } from '../types';
+import { User } from '../types';
 
 const socket = io(serverUrl);
 
-const RoundTable: React.FC<RoundTableProps> = () => {
+const RoundTable: React.FC = () => {
   const { users, myData, roundData, setUsers } = useGameContext();
 
   const sortedUsers = useMemo(
@@ -17,21 +18,17 @@ const RoundTable: React.FC<RoundTableProps> = () => {
     [users, myData]
   );
 
-  const getCellData = useMemo(
-    () =>
-      (user: User, columnKey: any): string | number => {
-        if (columnKey === 'name' && user.id === myData?.id) {
-          return 'You';
-        }
+  const getCellData = (user: User, columnKey: string): string | number => {
+    if (columnKey === 'name' && user.id === myData?.id) {
+      return 'You';
+    }
 
-        if (!roundData && columnKey !== 'name') {
-          return '-';
-        }
+    if (!roundData && columnKey !== 'name') {
+      return '-';
+    }
 
-        return user[columnKey as keyof User];
-      },
-    [myData, roundData]
-  );
+    return user[columnKey as keyof User];
+  };
 
   useEffect(() => {
     socket.on('round-updated', (usersFromDB: User[]) => {
@@ -45,24 +42,11 @@ const RoundTable: React.FC<RoundTableProps> = () => {
   }, []);
 
   return (
-    <table aria-label="current round table">
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <th key={column.key}>{column.label}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {sortedUsers.map((user) => (
-          <tr key={user.id}>
-            {columns.map((column) => (
-              <td key={column.key}>{getCellData(user, column.key)}</td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table<User>
+      columns={columns}
+      items={sortedUsers}
+      getCellData={getCellData}
+    />
   );
 };
 

@@ -1,49 +1,45 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-  getKeyValue,
-} from '@nextui-org/react';
-import { RoundTableProps } from '../types';
+import { useGameContext } from '@/context/GameContext';
+import Table from '@/ui/Table';
+import { columnsRankingTable as columns } from '../../data';
+import { User } from '../types';
 
-const columns = [
-  {
-    key: 'no',
-    label: 'No.',
-  },
-  {
-    key: 'name',
-    label: 'Name',
-  },
-  {
-    key: 'score',
-    label: 'Score',
-  },
-];
+const RankingTable: React.FC = () => {
+  const { users, myData, roundData } = useGameContext();
 
-const RankingTable: React.FC<RoundTableProps> = ({ users }) => {
+  // Fill the array up to 5 elements
+  const extendedUsers = [...users];
+  while (extendedUsers.length < 5) {
+    extendedUsers.push({
+      id: `placeholder-${extendedUsers.length + 1}`,
+      name: '-',
+      points: '-',
+      multiplier: '-',
+    } as unknown as User);
+  }
+
+  const getCellData = (user: User, columnKey: string): string | number => {
+    if (user.id.startsWith('placeholder')) {
+      return '-';
+    }
+
+    if (columnKey === 'name' && user.id === myData?.id) {
+      return 'You';
+    }
+
+    if (!roundData && columnKey !== 'name') {
+      return '-';
+    }
+
+    return user[columnKey as keyof User];
+  };
+
   return (
-    <Table aria-label="ranking table">
-      <TableHeader columns={columns}>
-        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-      </TableHeader>
-      <TableBody items={users}>
-        {(user) => (
-          <TableRow key={user.id}>
-            {(columnKey) =>
-              columnKey === 'no' ? (
-                <TableCell>index</TableCell>
-              ) : (
-                <TableCell>{getKeyValue(user, columnKey)}</TableCell>
-              )
-            }
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <Table<User>
+      columns={columns}
+      items={extendedUsers}
+      getCellData={getCellData}
+      hasNo
+    />
   );
 };
 

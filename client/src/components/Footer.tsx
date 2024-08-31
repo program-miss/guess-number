@@ -1,4 +1,3 @@
-import { users } from '../../data';
 import Chat from './Chat';
 import ImageLabel from './ImageLabel';
 import RankingTable from './RankingTable';
@@ -8,7 +7,7 @@ const Footer: React.FC = () => {
     <footer className="flex justify-center items-center gap-1">
       <div>
         <ImageLabel image="ranking" text="Ranking" />
-        <RankingTable users={users} />
+        <RankingTable />
       </div>
       <div>
         <ImageLabel image="chat" text="Chat" />

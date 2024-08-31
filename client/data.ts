@@ -52,3 +52,18 @@ export const columnsRoundTable = [
     label: 'Multiplier',
   },
 ];
+
+export const columnsRankingTable = [
+  {
+    key: 'no',
+    label: 'No.',
+  },
+  {
+    key: 'name',
+    label: 'Name',
+  },
+  {
+    key: 'score',
+    label: 'Score',
+  },
+];
