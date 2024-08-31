@@ -6,3 +6,15 @@
   background-color: rgba(21, 26, 34, 1);
   color: white;
 }
+
+.pink {
+  color: rgba(245, 92, 102, 1);
+}
+
+.chartBox {
+  width: 60%;
+}
+
+.roundBox {
+  width: 40%;
+}

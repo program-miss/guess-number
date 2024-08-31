@@ -30,15 +30,17 @@ const Main: React.FC = () => {
 
   return (
     <main className="flex items-center justify-center gap-1">
-      {myData ? (
-        <div>
-          <Button text="Start" onClick={handleStart} />
-          <ImageLabel image="trophy" text="Current Round" />
-          <RoundTable users={users} />
-        </div>
-      ) : (
-        <Welcome />
-      )}
+      <div className="roundBox">
+        {myData ? (
+          <div>
+            <Button text="Start" onClick={handleStart} />
+            <ImageLabel image="trophy" text="Current Round" />
+            <RoundTable users={users} />
+          </div>
+        ) : (
+          <Welcome />
+        )}
+      </div>
       <Chart number={crashValue || 0} />
     </main>
   );
