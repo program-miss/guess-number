@@ -1,10 +1,11 @@
-import Chat from './Chat';
-import ImageLabel from './ImageLabel';
-import RankingTable from './RankingTable';
+import Chat from '../Chat';
+import ImageLabel from '../ImageLabel';
+import RankingTable from '../RankingTable';
+import styles from './Footer.module.css';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="flex justify-center items-center gap-1">
+    <footer className={styles.container}>
       <div>
         <ImageLabel image="ranking" text="Ranking" />
         <RankingTable />

@@ -44,21 +44,25 @@ const RankingTable: React.FC = () => {
   }, [tableData]);
 
   return (
-    <table>
-      <thead>
+    <table className="table">
+      <thead className="thead">
         <tr>
-          <th>No.</th>
+          <th className="th">No.</th>
           {columns.map((column) => (
-            <th key={column.key}>{column.label}</th>
+            <th key={column.key} className="th">
+              {column.label}
+            </th>
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody className="tbody">
         {users.map((item: any, index: number) => (
-          <tr key={item.id || `empty-${index}`}>
-            <td>{index + 1}</td>
+          <tr key={item.id || `empty-${index}`} className="tr">
+            <td className="td">{index + 1}</td>
             {columns.map((column) => (
-              <td key={column.key}>{getCellData(item, column.key)}</td>
+              <td key={column.key} className="td">
+                {getCellData(item, column.key)}
+              </td>
             ))}
           </tr>
         ))}

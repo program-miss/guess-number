@@ -1,6 +1,6 @@
 'use client';
 import { GameContextProvider } from '@/context/GameContext';
-import Footer from '../components/Footer';
+import Footer from '../components/Footer/Footer';
 import Main from '../components/Main';
 import Header from '../components/header/Header/Header';
 

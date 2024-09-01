@@ -69,19 +69,21 @@ const RoundTable: React.FC = () => {
   }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
+    <table className="table">
+      <thead className="thead">
+        <tr className="tr">
           {columns.map((column) => (
             <th key={column.key}>{column.label}</th>
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody className="tbody">
         {tableData.map((item: any, index: number) => (
-          <tr key={item.id || `empty-${index}`}>
+          <tr key={item.id || `empty-${index}`} className="tr">
             {columns.map((column) => (
-              <td key={column.key}>{getCellData(item, column.key)}</td>
+              <td key={column.key} className="td">
+                {getCellData(item, column.key)}
+              </td>
             ))}
           </tr>
         ))}
