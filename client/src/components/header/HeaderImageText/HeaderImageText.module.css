@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  width: 200px;
+  border: 1px solid rgba(34, 39, 48, 1);
+  border-radius: 5px;
+  padding: 10px;
+  height: 60px;
+  flex-shrink: 0;
+}

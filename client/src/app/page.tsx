@@ -2,7 +2,7 @@
 import { GameContextProvider } from '@/context/GameContext';
 import Footer from '../components/Footer';
 import Main from '../components/Main';
-import Header from '../components/header/Header';
+import Header from '../components/header/Header/Header';
 
 export default function Home() {
   return (

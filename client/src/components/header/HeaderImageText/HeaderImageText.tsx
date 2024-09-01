@@ -1,11 +1,12 @@
 import Image from 'next/image';
-import { HeaderImageTextProps } from '../../types';
+import { HeaderImageTextProps } from '../../../types';
+import styles from './HeaderImageText.module.css';
 
 const HeaderImageText: React.FC<HeaderImageTextProps> = ({ image, text }) => {
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className={styles.container}>
       <Image src={image} alt="medal" width={20} height={20} />
-      <div>{text}</div>
+      <div>{text || ''}</div>
     </div>
   );
 };

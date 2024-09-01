@@ -1,12 +1,11 @@
 export interface HeaderInputProps {
   type: 'points' | 'multiplier';
   step: number;
-  defaultValue?: number;
 }
 
 export interface HeaderImageTextProps {
   image: string;
-  text: string | undefined;
+  text: string | number;
 }
 
 export interface User {

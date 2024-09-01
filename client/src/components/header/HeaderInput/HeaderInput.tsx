@@ -1,13 +1,10 @@
 import { useGameContext } from '@/context/GameContext';
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
 import React from 'react';
-import { HeaderInputProps } from '../../types';
+import { HeaderInputProps } from '../../../types';
+import styles from './HeaderInput.module.css';
 
-const HeaderInput: React.FC<HeaderInputProps> = ({
-  type,
-  step,
-  defaultValue = 0,
-}) => {
+const HeaderInput: React.FC<HeaderInputProps> = ({ type, step }) => {
   const { points, setPoints, multiplier, setMultiplier } = useGameContext();
 
   const value = type === 'points' ? points : multiplier;
@@ -29,12 +26,21 @@ const HeaderInput: React.FC<HeaderInputProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <small>{capitalizeFirstLetter(type)}</small>
-      <div>
-        <button onClick={handleDecrement}>▼</button>
-        <input type="number" value={value} onChange={handleChange} />
-        <button onClick={handleIncrement}>▲</button>
+    <div className={styles.container}>
+      <small className={styles.small}>{capitalizeFirstLetter(type)}</small>
+      <div className={styles.buttonsInputContainer}>
+        <button onClick={handleDecrement} className={styles.button}>
+          ▼
+        </button>
+        <input
+          type="number"
+          value={value}
+          onChange={handleChange}
+          className={styles.input}
+        />
+        <button onClick={handleIncrement} className={styles.button}>
+          ▲
+        </button>
       </div>
     </div>
   );

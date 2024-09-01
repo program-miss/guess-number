@@ -7,6 +7,10 @@
   color: white;
 }
 
+body {
+  padding: 100px;
+}
+
 .pink {
   color: rgba(245, 92, 102, 1);
 }

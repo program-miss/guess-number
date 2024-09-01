@@ -9,7 +9,6 @@ const RankingTable: React.FC = () => {
 
   const getCellData = useMemo(() => {
     return (user: any, columnKey: string): string | number => {
-      console.log('user', user);
       if (
         columnKey === 'name' &&
         user.user?.id === myData?.id &&
