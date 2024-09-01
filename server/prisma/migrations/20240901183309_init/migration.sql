@@ -1,3 +1,9 @@
+-- CreateEnum
+CREATE TYPE "ResultType" AS ENUM ('WON', 'LOST');
+
+-- CreateEnum
+CREATE TYPE "RoundStatusType" AS ENUM ('NOT_STARTED', 'IN_PROGRESS', 'COMPLETED');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -15,6 +21,7 @@ CREATE TABLE "Round" (
     "startTime" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "endTime" TIMESTAMP(3),
     "randomMultiplier" DOUBLE PRECISION NOT NULL,
+    "status" "RoundStatusType" NOT NULL DEFAULT 'NOT_STARTED',
 
     CONSTRAINT "Round_pkey" PRIMARY KEY ("id")
 );
@@ -26,6 +33,7 @@ CREATE TABLE "RoundPlayer" (
     "userId" TEXT NOT NULL,
     "multiplier" DOUBLE PRECISION NOT NULL,
     "points" INTEGER NOT NULL,
+    "result" "ResultType",
 
     CONSTRAINT "RoundPlayer_pkey" PRIMARY KEY ("id")
 );
@@ -40,6 +48,9 @@ CREATE TABLE "ChatMessage" (
 
     CONSTRAINT "ChatMessage_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "RoundPlayer_roundId_userId_key" ON "RoundPlayer"("roundId", "userId");
 
 -- AddForeignKey
 ALTER TABLE "RoundPlayer" ADD CONSTRAINT "RoundPlayer_roundId_fkey" FOREIGN KEY ("roundId") REFERENCES "Round"("id") ON DELETE CASCADE ON UPDATE CASCADE;

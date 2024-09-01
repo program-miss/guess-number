@@ -1,4 +1,4 @@
-import { RoundData, User } from '@/types';
+import { RoundData, RoundPlayer, User } from '@/types';
 import React, { ReactNode, createContext, useContext, useState } from 'react';
 
 interface GameContextProps {
@@ -7,11 +7,11 @@ interface GameContextProps {
   multiplier: number;
   setMultiplier: (multiplier: number) => void;
   myData: User | null;
-  setMyData: (myData: User) => void;
-  users: User[];
-  setUsers: (users: User[]) => void;
+  setMyData: (myData: any) => void;
   roundData: RoundData | null;
-  setRoundData: (roundData: RoundData | null) => void;
+  setRoundData: (roundData: any) => void;
+  tableData: RoundPlayer[];
+  setTableData: (data: RoundPlayer[]) => void;
 }
 
 const GameContext = createContext<GameContextProps | undefined>(undefined);
@@ -22,7 +22,7 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
   const [points, setPoints] = useState<number>(50);
   const [multiplier, setMultiplier] = useState<number>(1.0);
   const [myData, setMyData] = useState<User | null>(null);
-  const [users, setUsers] = useState<User[]>([]);
+  const [tableData, setTableData] = useState<RoundPlayer[]>([]);
   const [roundData, setRoundData] = useState<RoundData | null>(null);
 
   return (
@@ -34,10 +34,10 @@ export const GameContextProvider: React.FC<{ children: ReactNode }> = ({
         setMultiplier,
         myData,
         setMyData,
-        users,
-        setUsers,
         roundData,
         setRoundData,
+        tableData,
+        setTableData,
       }}
     >
       {children}

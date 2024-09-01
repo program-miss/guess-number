@@ -29,12 +29,13 @@ const Chart: React.FC<ChartProps> = ({ number }) => {
         requestAnimationFrame(animate);
       } else {
         // When the animation is complete and the value has reached the end
+
         socket.emit('end-round', roundData?.id);
       }
     };
 
     requestAnimationFrame(animate);
-  }, [number]);
+  }, [number, roundData?.id]);
 
   return (
     <div className="chartBox">

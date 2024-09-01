@@ -1,12 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import { ResultType } from '@prisma/client';
 import { users } from './mockData';
 import { PrismaService } from './prisma/prisma.service';
-import { RegisterUserDto, UsersUpdatedResponse } from './types';
+import {
+  PlaceBetDto,
+  RegisterUserDto,
+  RoundStartedResponse,
+  RoundUpdatedResponse,
+  UsersUpdatedResponse,
+} from './types';
 import { generateRandomNumber } from './utils/generateRandomNumber';
 
 @Injectable()
 export class AppService {
   constructor(private prisma: PrismaService) {}
+
+  getRoundPlayers(roundId: string, userId: string) {
+    return this.prisma.roundPlayer.findMany({
+      where: {
+        roundId,
+      },
+      include: {
+        round: true,
+        user: true,
+      },
+    });
+  }
 
   async createRoundWithUser(
     userData: RegisterUserDto,
@@ -49,31 +68,112 @@ export class AppService {
         },
       });
 
-      // Get users in 1 round
-      const usersInRound = await this.prisma.user.findMany({
-        where: {
-          roundPlayers: {
-            some: {
-              roundId: newRound.id,
-            },
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
       return {
         newUser,
-        round: {
-          id: newRound.id,
-          users: usersInRound,
-        },
+        roundPlayers: await this.getRoundPlayers(newRound.id, newUserId),
       };
     } catch (error) {
       console.error(error);
       throw new Error();
+    }
+  }
+
+  async placeBet(data: PlaceBetDto): Promise<RoundStartedResponse> {
+    try {
+      const roundId = data.roundId;
+      // Update multiplier and points for user
+      await this.prisma.roundPlayer.update({
+        where: {
+          roundId_userId: {
+            roundId,
+            userId: data.userId,
+          },
+        },
+        data: {
+          multiplier: data.multiplier,
+          points: data.points,
+        },
+      });
+
+      // Update start time for round
+      const round = await this.prisma.round.update({
+        where: {
+          id: roundId,
+        },
+        data: {
+          startTime: new Date(),
+          status: 'IN_PROGRESS',
+        },
+      });
+
+      return {
+        randomMultiplier: round.randomMultiplier,
+        roundPlayers: await this.getRoundPlayers(roundId, data.userId),
+      };
+    } catch (error) {
+      console.error(error);
+      throw new Error();
+    }
+  }
+
+  async endRound(roundId: string): Promise<RoundUpdatedResponse[]> {
+    try {
+      // 1. Find a round with players
+      const round = await this.prisma.round.findUnique({
+        where: {
+          id: roundId,
+        },
+        include: {
+          roundPlayers: true,
+        },
+      });
+
+      if (!round) {
+        throw new Error(`Round with ID ${roundId} not found`);
+      }
+
+      const { randomMultiplier, roundPlayers } = round;
+
+      if (!roundPlayers.length) {
+        throw new Error('No round players');
+      }
+
+      // 2. Calculate the results for each player
+      const updates = roundPlayers.map((player) => {
+        const result: ResultType =
+          player.multiplier <= randomMultiplier
+            ? ResultType.WON
+            : ResultType.LOST;
+
+        // 3. Update the result
+        return this.prisma.roundPlayer.update({
+          where: {
+            id: player.id,
+          },
+          data: {
+            result: result as ResultType,
+          },
+        });
+      });
+
+      // 4. Update the result of each player
+      await this.prisma.$transaction(updates);
+
+      // 5. End the round by updating its completion time
+      await this.prisma.round.update({
+        where: {
+          id: roundId,
+        },
+        data: {
+          endTime: new Date(),
+          status: 'COMPLETED',
+        },
+      });
+
+      // 6. Return players with updated results
+      return this.getRoundPlayers(roundId, '');
+    } catch (error) {
+      throw new Error('Failed to finish the round');
     }
   }
 }

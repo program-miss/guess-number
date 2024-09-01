@@ -1,45 +1,70 @@
 import { useGameContext } from '@/context/GameContext';
-import Table from '@/ui/Table';
+import { useEffect, useMemo, useState } from 'react';
 import { columnsRankingTable as columns } from '../../data';
-import { User } from '../types';
+import { RoundStatusType, User } from '../types';
 
 const RankingTable: React.FC = () => {
-  const { users, myData, roundData } = useGameContext();
+  const { tableData, myData, roundData } = useGameContext();
+  const [users, setUsers] = useState<any>([]);
 
-  // Fill the array up to 5 elements
-  const extendedUsers = [...users];
-  while (extendedUsers.length < 5) {
-    extendedUsers.push({
-      id: `placeholder-${extendedUsers.length + 1}`,
-      name: '-',
-      points: '-',
-      multiplier: '-',
-    } as unknown as User);
-  }
+  const getCellData = useMemo(() => {
+    return (user: any, columnKey: string): string | number => {
+      console.log('user', user);
+      if (
+        columnKey === 'name' &&
+        user.user?.id === myData?.id &&
+        roundData?.status === RoundStatusType.COMPLETED
+      ) {
+        return 'You';
+      }
 
-  const getCellData = (user: User, columnKey: string): string | number => {
-    if (user.id.startsWith('placeholder')) {
-      return '-';
+      if (
+        roundData?.status === RoundStatusType.NOT_STARTED ||
+        roundData?.status === RoundStatusType.IN_PROGRESS
+      ) {
+        return '-';
+      }
+
+      return (
+        (user?.[columnKey as keyof User] ||
+          user?.user?.[columnKey as keyof User]) ??
+        '-'
+      );
+    };
+  }, [myData?.id, roundData?.status]);
+
+  useEffect(() => {
+    let emptyUsers = [];
+    for (let i = 0; i < 6; i++) {
+      emptyUsers.push({ no: i });
     }
 
-    if (columnKey === 'name' && user.id === myData?.id) {
-      return 'You';
-    }
+    const currectTableData = tableData.length ? tableData : emptyUsers;
 
-    if (!roundData && columnKey !== 'name') {
-      return '-';
-    }
-
-    return user[columnKey as keyof User];
-  };
+    setUsers(currectTableData);
+  }, [tableData]);
 
   return (
-    <Table
-      columns={columns}
-      items={extendedUsers}
-      getCellData={getCellData}
-      hasNo
-    />
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          {columns.map((column) => (
+            <th key={column.key}>{column.label}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((item: any, index: number) => (
+          <tr key={item.id || `empty-${index}`}>
+            <td>{index + 1}</td>
+            {columns.map((column) => (
+              <td key={column.key}>{getCellData(item, column.key)}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 

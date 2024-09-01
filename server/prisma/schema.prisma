@@ -18,22 +18,26 @@ model User {
 }
 
 model Round {
-  id               String        @id @default(uuid())
-  startTime        DateTime      @default(now())
+  id               String          @id @default(uuid())
+  startTime        DateTime        @default(now())
   endTime          DateTime?
   randomMultiplier Float
+  status           RoundStatusType @default(NOT_STARTED)
   chatMessages     ChatMessage[]
   roundPlayers     RoundPlayer[]
 }
 
 model RoundPlayer {
-  id         String @id @default(uuid())
+  id         String      @id @default(uuid())
   roundId    String
   userId     String
   multiplier Float
   points     Int
-  round      Round  @relation(fields: [roundId], references: [id], onDelete: Cascade)
-  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  result     ResultType?
+  round      Round       @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roundId, userId])
 }
 
 model ChatMessage {
@@ -44,4 +48,15 @@ model ChatMessage {
   createdAt DateTime @default(now())
   round     Round    @relation(fields: [roundId], references: [id], onDelete: SetNull)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum ResultType {
+  WON
+  LOST
+}
+
+enum RoundStatusType {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
 }

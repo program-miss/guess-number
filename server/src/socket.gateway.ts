@@ -6,11 +6,14 @@ import {
 } from '@nestjs/websockets';
 import { config } from 'dotenv';
 import { Server } from 'socket.io';
-import { v4 as uuidv4 } from 'uuid';
 import { AppService } from './app.service';
-import { users } from './mockData';
-import { RegisterUserDto } from './types';
-import { generateRandomNumber } from './utils/generateRandomNumber';
+import {
+  PlaceBetDto,
+  RegisterUserDto,
+  RoundStartedResponse,
+  RoundUpdatedResponse,
+  UsersUpdatedResponse,
+} from './types';
 config();
 
 const clientUrl = process.env.CLIENT_URL || '';
@@ -31,31 +34,29 @@ export class SocketGateway {
     @MessageBody() userData: RegisterUserDto,
   ): Promise<void> {
     if (!userData.name || !userData.id) return;
-    const roundData = await this.appService.createRoundWithUser(userData);
+    const roundData: UsersUpdatedResponse =
+      await this.appService.createRoundWithUser(userData);
     this.server.emit('users-updated', roundData);
   }
 
   @SubscribeMessage('place-bet')
-  handleStart(
-    @MessageBody() data: { points: number; multiplier: number },
-  ): void {
-    const roundData = {
-      id: uuidv4(),
-      crashValue: generateRandomNumber(),
-    };
+  async handleStart(@MessageBody() data: PlaceBetDto): Promise<void> {
+    const roundData: RoundStartedResponse =
+      await this.appService.placeBet(data);
     this.server.emit('round-started', roundData);
+  }
+
+  @SubscribeMessage('end-round')
+  async handleRoundEnd(@MessageBody() roundId: string): Promise<void> {
+    if (!roundId) return;
+    const users: RoundUpdatedResponse[] =
+      await this.appService.endRound(roundId);
+    this.server.emit('round-updated', users);
   }
 
   @SubscribeMessage('send-chat-message')
   handleMessage(@MessageBody() message: string): void {
     console.log('Message received:', message);
     this.server.emit('chat-message-received', message);
-  }
-
-  @SubscribeMessage('end-round')
-  handleRoundEnd(@MessageBody() roundId: string): void {
-    if (!roundId) return;
-    // Send users for tables
-    this.server.emit('round-updated', users);
   }
 }

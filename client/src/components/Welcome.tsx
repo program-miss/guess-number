@@ -1,4 +1,5 @@
 import { useGameContext } from '@/context/GameContext';
+import { UsersUpdatedResponse } from '@/types';
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,7 +10,7 @@ const socket = io(serverUrl);
 
 const Welcome: React.FC = () => {
   const [value, setValue] = useState<string>('');
-  const { myData, setMyData, setRoundData } = useGameContext();
+  const { myData, setMyData, setRoundData, setTableData } = useGameContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -21,22 +22,29 @@ const Welcome: React.FC = () => {
   };
 
   useEffect(() => {
-    socket.on('users-updated', ({ newUser, round }) => {
+    socket.on('users-updated', (roundData: UsersUpdatedResponse) => {
       // Save user and round data
-      setRoundData(round);
-      if (myData?.id === newUser.id) setMyData(newUser);
+      const { roundPlayers, newUser } = roundData;
+      setRoundData({
+        id: roundPlayers[0].round.id,
+        status: roundPlayers[0].round.status,
+      });
+      setTableData(roundPlayers);
+      if (myData?.id === newUser.id) {
+        setMyData(newUser);
+      }
     });
 
     return () => {
       socket.off('users-updated');
     };
-  }, [setRoundData, setMyData, myData]);
+  }, [setRoundData, setTableData, setMyData, myData]);
 
   useEffect(() => {
     // Create new user and save to the context
     const newUserId = uuidv4();
     setMyData({ id: newUserId, name: '', score: 0 });
-  }, []);
+  }, [setMyData]);
 
   return (
     <div className="flex flex-col items-center justify-center">
