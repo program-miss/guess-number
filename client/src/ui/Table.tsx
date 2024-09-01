@@ -1,11 +1,6 @@
 import { TableProps } from '@/types';
 
-const Table = <T extends { id: string }>({
-  columns,
-  items,
-  getCellData,
-  hasNo = false,
-}: TableProps<T>) => {
+const Table = ({ columns, items, getCellData, hasNo = false }: TableProps) => {
   return (
     <table>
       <thead>
@@ -17,7 +12,7 @@ const Table = <T extends { id: string }>({
         </tr>
       </thead>
       <tbody>
-        {items.map((item, index) => (
+        {items.map((item: any, index: number) => (
           <tr key={item.id}>
             {hasNo && <td>{index + 1}</td>}
             {columns.map((column) => (

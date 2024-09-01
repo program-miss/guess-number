@@ -7,7 +7,9 @@ import {
 import { config } from 'dotenv';
 import { Server } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
+import { AppService } from './app.service';
 import { users } from './mockData';
+import { RegisterUserDto } from './types';
 import { generateRandomNumber } from './utils/generateRandomNumber';
 config();
 
@@ -16,12 +18,22 @@ const clientUrl = process.env.CLIENT_URL || '';
 @WebSocketGateway({
   cors: {
     origin: clientUrl,
-    methods: ['GET', 'POST'],
   },
 })
 export class SocketGateway {
   @WebSocketServer()
   server: Server;
+
+  constructor(private readonly appService: AppService) {}
+
+  @SubscribeMessage('register-user')
+  async handleRegisterUser(
+    @MessageBody() userData: RegisterUserDto,
+  ): Promise<void> {
+    if (!userData.name || !userData.id) return;
+    const roundData = await this.appService.createRoundWithUser(userData);
+    this.server.emit('users-updated', roundData);
+  }
 
   @SubscribeMessage('place-bet')
   handleStart(
@@ -38,21 +50,6 @@ export class SocketGateway {
   handleMessage(@MessageBody() message: string): void {
     console.log('Message received:', message);
     this.server.emit('chat-message-received', message);
-  }
-
-  @SubscribeMessage('register-user')
-  handleRegisterUser(@MessageBody() name: string): void {
-    if (!name) return;
-    const newUser = {
-      name,
-      id: uuidv4(),
-      points: 50,
-      multiplier: 1,
-    };
-    users.push(newUser);
-
-    // Send users for table Current round
-    this.server.emit('users-updated', { newUser, users });
   }
 
   @SubscribeMessage('end-round')

@@ -6,19 +6,24 @@ export interface HeaderInputProps {
 
 export interface HeaderImageTextProps {
   image: string;
-  text: string;
+  text: string | undefined;
 }
 
 export interface User {
   id: string;
   name: string;
-  points: number;
-  multiplier: number;
+  score: number;
+}
+
+export interface StartRoundUsers {
+  id: string;
+  name: string;
 }
 
 export interface RoundData {
   id: string;
-  crashValue: number;
+  users: StartRoundUsers[];
+  // crashValue?: number;
 }
 
 export interface ChartProps {
@@ -40,9 +45,9 @@ export interface Column {
   label: string;
 }
 
-export interface TableProps<T> {
+export interface TableProps {
   columns: Column[];
-  items: T[];
-  getCellData: (item: T, columnKey: string) => React.ReactNode;
+  items: any;
+  getCellData: (item: any, columnKey: string) => React.ReactNode;
   hasNo?: boolean;
 }

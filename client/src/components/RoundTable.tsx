@@ -8,8 +8,9 @@ import { User } from '../types';
 const socket = io(serverUrl);
 
 const RoundTable: React.FC = () => {
-  const { users, myData, roundData, setUsers } = useGameContext();
+  const { myData, roundData, setUsers } = useGameContext();
 
+  const users = roundData?.users || [];
   const sortedUsers = useMemo(
     () =>
       myData
@@ -32,7 +33,6 @@ const RoundTable: React.FC = () => {
 
   useEffect(() => {
     socket.on('round-updated', (usersFromDB: User[]) => {
-      console.log('usersFromDB', usersFromDB);
       setUsers(usersFromDB);
     });
 
@@ -42,11 +42,7 @@ const RoundTable: React.FC = () => {
   }, []);
 
   return (
-    <Table<User>
-      columns={columns}
-      items={sortedUsers}
-      getCellData={getCellData}
-    />
+    <Table columns={columns} items={sortedUsers} getCellData={getCellData} />
   );
 };
 

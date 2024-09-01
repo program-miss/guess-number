@@ -55,10 +55,6 @@ export const columnsRoundTable = [
 
 export const columnsRankingTable = [
   {
-    key: 'no',
-    label: 'No.',
-  },
-  {
     key: 'name',
     label: 'Name',
   },

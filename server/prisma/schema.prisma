@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String        @db.VarChar(255)
+  score        Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  chatMessages ChatMessage[]
+  roundPlayers RoundPlayer[]
+}
+
+model Round {
+  id               String        @id @default(uuid())
+  startTime        DateTime      @default(now())
+  endTime          DateTime?
+  randomMultiplier Float
+  chatMessages     ChatMessage[]
+  roundPlayers     RoundPlayer[]
+}
+
+model RoundPlayer {
+  id         String @id @default(uuid())
+  roundId    String
+  userId     String
+  multiplier Float
+  points     Int
+  round      Round  @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  roundId   String
+  userId    String
+  message   String
+  createdAt DateTime @default(now())
+  round     Round    @relation(fields: [roundId], references: [id], onDelete: SetNull)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

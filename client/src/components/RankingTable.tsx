@@ -34,7 +34,7 @@ const RankingTable: React.FC = () => {
   };
 
   return (
-    <Table<User>
+    <Table
       columns={columns}
       items={extendedUsers}
       getCellData={getCellData}

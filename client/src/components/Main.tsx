@@ -2,9 +2,8 @@ import { useGameContext } from '@/context/GameContext';
 import { RoundData } from '@/types';
 import { useEffect } from 'react';
 import io from 'socket.io-client';
-import { serverUrl, users } from '../../data';
+import { serverUrl } from '../../data';
 import Button from '../ui/Button';
-import Chart from './Chart';
 import ImageLabel from './ImageLabel';
 import RoundTable from './RoundTable';
 import Welcome from './Welcome';
@@ -12,7 +11,7 @@ import Welcome from './Welcome';
 const socket = io(serverUrl);
 
 const Main: React.FC = () => {
-  const { points, multiplier, myData, roundData, setRoundData } =
+  const { points, multiplier, myData, setRoundData } =
     useGameContext();
 
   const handleStart = () => {
@@ -32,17 +31,17 @@ const Main: React.FC = () => {
   return (
     <main className="flex items-center justify-center gap-1">
       <div className="roundBox">
-        {myData ? (
+        {myData?.name ? (
           <div>
             <Button text="Start" onClick={handleStart} />
             <ImageLabel image="trophy" text="Current Round" />
-            <RoundTable users={users} />
+            <RoundTable />
           </div>
         ) : (
           <Welcome />
         )}
       </div>
-      <Chart number={roundData?.crashValue || 0} />
+      {/* <Chart number={roundData?.crashValue || 0} /> */}
     </main>
   );
 };
