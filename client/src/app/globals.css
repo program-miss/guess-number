@@ -12,12 +12,15 @@ body {
   height: 100vh;
 }
 
-.pink {
-  color: rgba(245, 92, 102, 1);
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.chartBox {
-  width: 60%;
+.topContainer {
+  display: flex;
+  gap: 10px;
 }
 
 .roundBox {

@@ -1,15 +1,19 @@
 'use client';
+import LeftSide from '@/components/LeftSide/LeftSide';
+import RightSide from '@/components/RightSide/RightSide';
 import { GameContextProvider } from '@/context/GameContext';
 import Footer from '../components/Footer/Footer';
-import Main from '../components/Main';
-import Header from '../components/header/Header/Header';
 
 export default function Home() {
   return (
     <GameContextProvider>
-      <Header />
-      <Main />
-      <Footer />
+      <div className="mainContainer">
+        <div className="topContainer">
+          <LeftSide />
+          <RightSide />
+        </div>
+        <Footer />
+      </div>
     </GameContextProvider>
   );
 }

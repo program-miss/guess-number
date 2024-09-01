@@ -1,8 +1,9 @@
 import { useGameContext } from '@/context/GameContext';
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-import { serverUrl } from '../../data';
-import { ChartProps } from '../types';
+import { serverUrl } from '../../../data';
+import { ChartProps } from '../../types';
+import styles from './Chart.module.css';
 
 const socket = io(serverUrl);
 
@@ -27,19 +28,27 @@ const Chart: React.FC<ChartProps> = ({ number }) => {
 
       if (progress < duration) {
         requestAnimationFrame(animate);
-      } else {
-        // When the animation is complete and the value has reached the end
-
-        socket.emit('end-round', roundData?.id);
       }
     };
 
     requestAnimationFrame(animate);
-  }, [number, roundData?.id]);
+  }, [number]);
+
+  useEffect(() => {
+    if (parseFloat(currentValue) === number && currentValue !== '0.00') {
+      socket.emit('end-round', roundData?.id);
+    }
+  }, [roundData?.id, currentValue]);
 
   return (
-    <div className="chartBox">
-      <div className={parseFloat(currentValue) === number ? 'pink' : ''}>
+    <div className={styles.container}>
+      <div
+        className={
+          parseFloat(currentValue) === number && currentValue !== '0.00'
+            ? styles.pink
+            : styles.value
+        }
+      >
         {currentValue}x
       </div>
     </div>

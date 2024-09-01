@@ -1,0 +1,27 @@
+.containerWithWelcome {
+  flex: 2;
+  height: 50vh;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.buttonTableContainer button {
+  width: 100%;
+}
+
+.roundTableContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
