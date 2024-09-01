@@ -3,9 +3,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 10px;
 }
 
-.container div {
+.halfWidth {
+  width: 50%;
+}
+
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: 50%;
 }

@@ -1,0 +1,41 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid rgb(50, 55, 69);
+  border-radius: 5px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  height: 12vh;
+  overflow-y: scroll;
+}
+
+.inputButtonContainer {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: rgba(36, 42, 57, 1);
+}
+
+.inputButtonContainer input {
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 600;
+  padding: 5px;
+  width: 100%;
+}
+
+.chatText {
+  font-size: x-small;
+  font-weight: 500;
+  background-color: rgba(36, 42, 57, 1);
+  border-radius: 5px;
+  padding: 3px;
+}

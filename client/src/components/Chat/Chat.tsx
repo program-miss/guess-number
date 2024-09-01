@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import { serverUrl } from '../../data';
-import Button from '../ui/Button';
+import { serverUrl } from '../../../data';
+import Button from '../../ui/Button';
+import styles from './Chat.module.css';
 
 const socket = io(serverUrl);
 
@@ -33,13 +34,13 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className={styles.mainContainer}>
+      <div className={styles.container}>
         {messages.map((message, index) => (
-          <div key={index}>{message}</div>
+          <div key={index} className={styles.chatText}>{message}</div>
         ))}
       </div>
-      <div>
+      <div className={styles.inputButtonContainer}>
         <input
           type="text"
           value={input}
