@@ -3,8 +3,9 @@ import { UsersUpdatedResponse } from '@/types';
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
-import { serverUrl } from '../../data';
-import Button from '../ui/Button';
+import { serverUrl } from '../../../data';
+import Button from '../../ui/Button';
+import styles from './Welcome.module.css';
 
 const socket = io(serverUrl);
 
@@ -47,10 +48,14 @@ const Welcome: React.FC = () => {
   }, [setMyData]);
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1>Welcome</h1>
-      <div className="flex flex-col items-center justify-center gap-4">
-        <label>Please Insert Your Name</label>
+    <div className={`${styles.container} ${styles.background}`}>
+      <h1 className={`${styles.background} ${styles.header}`}>Welcome</h1>
+      <div
+        className={`${styles.labelInputButtonContainer} ${styles.background}`}
+      >
+        <label className={`${styles.background} small`}>
+          Please Insert Your Name
+        </label>
         <input value={value} onChange={handleChange} />
         <Button text="Accept" onClick={handleRegisterUser} />
       </div>

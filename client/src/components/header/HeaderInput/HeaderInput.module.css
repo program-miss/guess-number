@@ -27,12 +27,6 @@
   width: 60px;
 }
 
-.small {
-  color: rgb(115 119 128);
-  font-size: x-small;
-  font-weight: 500;
-}
-
 .button {
   border: 1px solid rgba(34, 39, 48, 1);
   border-radius: 5px;

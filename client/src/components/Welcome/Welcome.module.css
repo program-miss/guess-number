@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(50, 55, 69);
+  border-radius: 5px;
+  position: absolute;
+  top: 110px;
+  width: 40%;
+  height: 60%;
+}
+
+.labelInputButtonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.labelInputButtonContainer button {
+  width: 100%;
+}
+
+.labelInputButtonContainer input {
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 600;
+  padding: 5px;
+}
+
+.background {
+  background-color: rgba(36, 42, 57, 1);
+}
+
+.header {
+  color: rgba(121, 128, 143, 1);
+  padding: 50px;
+  font-size: 20px;
+}

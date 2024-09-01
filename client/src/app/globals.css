@@ -9,6 +9,7 @@
 
 body {
   padding: 100px;
+  height: 100vh;
 }
 
 .pink {
@@ -21,4 +22,10 @@ body {
 
 .roundBox {
   width: 40%;
+}
+
+.small {
+  color: rgb(115 119 128);
+  font-size: x-small;
+  font-weight: 500;
 }

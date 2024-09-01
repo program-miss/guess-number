@@ -27,7 +27,7 @@ const HeaderInput: React.FC<HeaderInputProps> = ({ type, step }) => {
 
   return (
     <div className={styles.container}>
-      <small className={styles.small}>{capitalizeFirstLetter(type)}</small>
+      <small className="small">{capitalizeFirstLetter(type)}</small>
       <div className={styles.buttonsInputContainer}>
         <button onClick={handleDecrement} className={styles.button}>
           ▼

@@ -7,7 +7,7 @@ import Button from '../ui/Button';
 import Chart from './Chart';
 import ImageLabel from './ImageLabel';
 import RoundTable from './RoundTable';
-import Welcome from './Welcome';
+import Welcome from './Welcome/Welcome';
 
 const socket = io(serverUrl);
 
