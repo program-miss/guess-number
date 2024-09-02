@@ -88,6 +88,12 @@ export interface UserRoundTable {
   user: IdNameUser;
 }
 
+export interface MessageData {
+  message: string;
+  userId: string;
+  roundId: string;
+}
+
 // Enums
 export enum ResultType {
   WON = 'WON',

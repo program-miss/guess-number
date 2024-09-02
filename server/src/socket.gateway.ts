@@ -4,10 +4,12 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { ChatMessage } from '@prisma/client';
 import { config } from 'dotenv';
 import { Server } from 'socket.io';
 import { AppService } from './app.service';
 import {
+  MessageDataDto,
   PlaceBetDto,
   RegisterUserDto,
   RoundStartedResponse,
@@ -55,8 +57,11 @@ export class SocketGateway {
   }
 
   @SubscribeMessage('send-chat-message')
-  handleMessage(@MessageBody() message: string): void {
-    console.log('Message received:', message);
-    this.server.emit('chat-message-received', message);
+  async handleMessage(
+    @MessageBody() messageData: MessageDataDto,
+  ): Promise<void> {
+    const roundMessages: ChatMessage[] =
+      await this.appService.saveMessage(messageData);
+    this.server.emit('chat-message-received', roundMessages);
   }
 }

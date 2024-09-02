@@ -22,6 +22,12 @@ const Welcome: React.FC = () => {
     socket.emit('register-user', { id: myData?.id, name: value });
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleRegisterUser();
+    }
+  };
+
   useEffect(() => {
     socket.on('users-updated', (roundData: UsersUpdatedResponse) => {
       // Save user and round data
@@ -56,7 +62,7 @@ const Welcome: React.FC = () => {
         <label className={`${styles.background} small`}>
           Please Insert Your Name
         </label>
-        <input value={value} onChange={handleChange} />
+        <input value={value} onChange={handleChange} onKeyUp={handleKeyPress} />
         <Button text="Accept" onClick={handleRegisterUser} />
       </div>
     </div>

@@ -46,9 +46,13 @@ body {
 .td {
   padding: 5px;
   text-align: center;
-  color: rgb(190 194 201);
+  color: rgb(230, 233, 236);
   font-size: x-small;
   font-weight: bold;
+}
+
+.thead {
+  height: 3vh;
 }
 
 .thead th {
@@ -60,9 +64,9 @@ body {
 }
 
 .lost {
-  color: rgba(156, 86, 89, 1);
+  color: rgb(212, 73, 80);
 }
 
 .won {
-  color: rgba(34, 170, 101, 1);
+  color: rgb(35, 209, 122);
 }

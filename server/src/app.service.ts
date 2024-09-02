@@ -3,6 +3,7 @@ import { ResultType } from '@prisma/client';
 import { users } from './mockData';
 import { PrismaService } from './prisma/prisma.service';
 import {
+  MessageDataDto,
   PlaceBetDto,
   RegisterUserDto,
   RoundStartedResponse,
@@ -195,6 +196,27 @@ export class AppService {
 
       // 6. Return players with updated results
       return this.getRoundPlayers(roundId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async saveMessage(messageData: MessageDataDto) {
+    const { message, userId, roundId } = messageData;
+    try {
+      await this.prisma.chatMessage.create({
+        data: {
+          message,
+          userId,
+          roundId,
+        },
+      });
+
+      return this.prisma.chatMessage.findMany({
+        where: {
+          roundId,
+        },
+      });
     } catch (error) {
       throw new Error(error);
     }

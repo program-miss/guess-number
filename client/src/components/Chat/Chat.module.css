@@ -32,10 +32,23 @@
   width: 100%;
 }
 
-.chatText {
+.userWithTextContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
   font-size: x-small;
-  font-weight: 500;
+  font-weight: bold;
+}
+
+.chatText {
   background-color: rgba(36, 42, 57, 1);
   border-radius: 5px;
-  padding: 3px;
+  padding: 5px;
+}
+
+.userName {
+  background-color: rgba(21, 26, 34, 1);
+  color: rgb(205, 59, 132);
+  font-size: small;
 }

@@ -36,3 +36,9 @@ export interface RoundUpdatedResponse {
   round: Round;
   user: User;
 }
+
+export interface MessageDataDto {
+  message: string;
+  userId: string;
+  roundId: string;
+}
