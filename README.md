@@ -2,8 +2,9 @@
 
 [Play the Game](https://alina-guess-number.netlify.app)
 
-<h2>Video ▼</h2>
-[![Watch the video](https://files.fm/f/kasarsakw3)](https://youtu.be/l3zCP87VFII)
+## 📹 Video Preview
+
+[![Watch the video](https://img.youtube.com/vi/l3zCP87VFII/0.jpg)](https://youtu.be/l3zCP87VFII)
 
 ## 📋 Objective
 
