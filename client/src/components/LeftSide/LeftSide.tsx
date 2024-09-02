@@ -61,7 +61,7 @@ const LeftSide: React.FC = () => {
   }, [setRoundData, myData?.id]);
 
   return (
-    <div className={styles.containerWithWelcome}>
+    <div className={styles.leftSideContainer}>
       {myData?.name ? (
         <div className={styles.container}>
           <div className={styles.inputs}>
@@ -77,7 +77,9 @@ const LeftSide: React.FC = () => {
           </div>
         </div>
       ) : (
-        <Welcome />
+        <div className={styles.container}>
+          <Welcome />
+        </div>
       )}
     </div>
   );
