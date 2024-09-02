@@ -15,7 +15,7 @@ import { generateRandomNumber } from './utils/generateRandomNumber';
 export class AppService {
   constructor(private prisma: PrismaService) {}
 
-  getRoundPlayers(roundId: string, userId: string) {
+  getRoundPlayers(roundId: string) {
     return this.prisma.roundPlayer.findMany({
       where: {
         roundId,
@@ -37,6 +37,7 @@ export class AppService {
         data: {
           id: newUserId,
           name: userData.name,
+          score: 1000,
         },
       });
 
@@ -70,17 +71,17 @@ export class AppService {
 
       return {
         newUser,
-        roundPlayers: await this.getRoundPlayers(newRound.id, newUserId),
+        roundPlayers: await this.getRoundPlayers(newRound.id),
       };
     } catch (error) {
-      console.error(error);
-      throw new Error();
+      throw new Error(error);
     }
   }
 
   async placeBet(data: PlaceBetDto): Promise<RoundStartedResponse> {
     try {
       const roundId = data.roundId;
+
       // Update multiplier and points for user
       await this.prisma.roundPlayer.update({
         where: {
@@ -92,6 +93,16 @@ export class AppService {
         data: {
           multiplier: data.multiplier,
           points: data.points,
+          user: {
+            connect: {
+              id: data.userId,
+            },
+            update: {
+              score: {
+                decrement: data.points,
+              },
+            },
+          },
         },
       });
 
@@ -108,11 +119,10 @@ export class AppService {
 
       return {
         randomMultiplier: round.randomMultiplier,
-        roundPlayers: await this.getRoundPlayers(roundId, data.userId),
+        roundPlayers: await this.getRoundPlayers(roundId),
       };
     } catch (error) {
-      console.error(error);
-      throw new Error();
+      throw new Error(error);
     }
   }
 
@@ -140,6 +150,7 @@ export class AppService {
 
       // 2. Calculate the results for each player
       const updates = roundPlayers.map((player) => {
+        const multiplierAndPoints = player.multiplier * player.points;
         const result: ResultType =
           player.multiplier <= randomMultiplier
             ? ResultType.WON
@@ -152,6 +163,18 @@ export class AppService {
           },
           data: {
             result: result as ResultType,
+            ...(result === ResultType.WON && {
+              user: {
+                connect: {
+                  id: player.userId,
+                },
+                update: {
+                  score: {
+                    increment: multiplierAndPoints,
+                  },
+                },
+              },
+            }),
           },
         });
       });
@@ -171,9 +194,9 @@ export class AppService {
       });
 
       // 6. Return players with updated results
-      return this.getRoundPlayers(roundId, '');
+      return this.getRoundPlayers(roundId);
     } catch (error) {
-      throw new Error('Failed to finish the round');
+      throw new Error(error);
     }
   }
 }

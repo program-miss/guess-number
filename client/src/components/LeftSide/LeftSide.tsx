@@ -1,5 +1,5 @@
 import { useGameContext } from '@/context/GameContext';
-import { RoundData, RoundStartedResponse } from '@/types';
+import { RoundData, RoundStartedResponse, User } from '@/types';
 import Button from '@/ui/Button';
 import { useEffect } from 'react';
 import { io } from 'socket.io-client';
@@ -13,8 +13,15 @@ import styles from './LeftSide.module.css';
 const socket = io(serverUrl);
 
 const LeftSide: React.FC = () => {
-  const { points, multiplier, myData, roundData, setRoundData, setTableData } =
-    useGameContext();
+  const {
+    points,
+    multiplier,
+    myData,
+    roundData,
+    setRoundData,
+    setTableData,
+    setMyData,
+  } = useGameContext();
 
   const handleStart = () => {
     socket.emit('place-bet', {
@@ -27,19 +34,31 @@ const LeftSide: React.FC = () => {
 
   useEffect(() => {
     socket.on('round-started', (roundData: RoundStartedResponse) => {
+      // Update score for my data
+      const me = roundData.roundPlayers.find(
+        (user) => user.user.id === myData?.id
+      );
+
+      if (me && me.user.score !== myData?.score) {
+        setMyData((prev: User) => ({
+          ...prev,
+          score: me.user.score ?? prev.score,
+        }));
+      }
+
+      // Update table data
+      setTableData(roundData.roundPlayers);
       setRoundData((prev: RoundData) => ({
         ...prev,
         randomMultiplier: roundData.randomMultiplier,
         status: roundData.roundPlayers[0].round.status,
       }));
-
-      setTableData(roundData.roundPlayers);
     });
 
     return () => {
       socket.off('round-started');
     };
-  }, [setRoundData]);
+  }, [setRoundData, myData?.id]);
 
   return (
     <div className={styles.containerWithWelcome}>

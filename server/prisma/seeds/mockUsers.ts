@@ -8,6 +8,7 @@ async function main() {
       data: {
         id: user.id,
         name: user.name,
+        score: 1000 - user.points,
       },
     });
 

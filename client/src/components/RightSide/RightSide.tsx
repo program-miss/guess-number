@@ -26,10 +26,7 @@ const RightSide: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
-        <HeaderImageText
-          image="/medal.png"
-          text={myData?.name && !myData.score ? 1000 : 0}
-        />
+        <HeaderImageText image="/medal.png" text={myData?.score || 0} />
         <HeaderImageText image="/user.png" text={myData?.name || ''} />
         <HeaderImageText
           image="/clock.png"
