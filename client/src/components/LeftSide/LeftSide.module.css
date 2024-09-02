@@ -22,6 +22,10 @@
   width: 100%;
 }
 
+.buttonTableContainer {
+  gap: 20px;
+}
+
 .roundTableContainer {
   display: flex;
   flex-direction: column;
