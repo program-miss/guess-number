@@ -1,6 +1,11 @@
 import { useGameContext } from '@/context/GameContext';
-import { RoundData, RoundStartedResponse, User } from '@/types';
-import Button from '@/ui/Button';
+import {
+  RoundData,
+  RoundStartedResponse,
+  RoundStatusType,
+  User,
+} from '@/types';
+import Button from '@/ui/Button/Button';
 import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { serverUrl } from '../../../data';
@@ -69,7 +74,15 @@ const LeftSide: React.FC = () => {
             <HeaderInput type="multiplier" step={0.25} />
           </div>
           <div className={`${styles.buttonTableContainer} ${styles.container}`}>
-            <Button text="Start" onClick={handleStart} />
+            <Button
+              text={
+                roundData?.status === RoundStatusType.IN_PROGRESS
+                  ? 'Started'
+                  : 'Start'
+              }
+              onClick={handleStart}
+              disabled={roundData?.status === RoundStatusType.IN_PROGRESS}
+            />
             <div className={styles.roundTableContainer}>
               <ImageLabel image="trophy" text="Current Round" />
               <RoundTable />

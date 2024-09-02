@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 import { serverUrl } from '../../../data';
-import Button from '../../ui/Button';
+import Button from '../../ui/Button/Button';
 import styles from './Welcome.module.css';
 
 const socket = io(serverUrl);

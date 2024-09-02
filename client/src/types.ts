@@ -1,3 +1,5 @@
+import { ButtonHTMLAttributes } from 'react';
+
 export interface HeaderInputProps {
   type: 'points' | 'multiplier';
   step: number;
@@ -47,7 +49,7 @@ export interface ImageLabelProps {
   text: string;
 }
 
-export interface ButtonProps {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   onClick: () => void;
 }
