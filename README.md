@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Guess the Number Game 🎲
 
-## Getting Started
+[Play the Game](https://alina-guess-number.netlify.app)
 
-First, run the development server:
+## 📋 Objective
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Welcome to the Guess the Number game! This is a thrilling game based on random number generation, where each round offers a new challenge. The objective is simple: observe the rising Multiplier value, predict when it will freeze, and place your points based on that prediction.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### How to Win
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- At the start of each round, every player receives an equal amount of starting points.
+- Your task is to guess when the Multiplier will freeze.
+- If you guess correctly, you'll win the round and earn points calculated by multiplying the points you placed by the Multiplier (Points x Multiplier).
+- If you guess wrong, you lose the points you placed.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🎮 Game Mechanics
 
-## Learn More
+### Game Board
 
-To learn more about Next.js, take a look at the following resources:
+The game board features a dynamic line graph that represents the Multiplier value's increase during each round. Keep an eye on this to make your prediction!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Player Inputs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **Points**: Decide how many points you want to place on your guess.
+- **Multiplier**: Predict the value at which the Multiplier will freeze.
 
-## Deploy on Vercel
+### Current Round
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A table displays all active players in the current round, showing their respective guesses and points.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Ranking
+
+Check out the leaderboard! The Ranking table displays the total points of all players, reflecting their performance across all rounds.
+
+### Chat
+
+Communicate with other players in real-time using the chat box. Share strategies, celebrate victories, or simply chat during the game.
+
+## 🚀 Getting Started
+
+To start playing locally, follow these steps:
+
+1. **Navigate to the client directory:**
+   ```bash
+   cd client
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Build the application:**
+   ```bash
+   npm run build
+   ```
+4. **Create .env file and put this line**:
+   ```bash
+   NEXT_PUBLIC_SERVER_URL=http://localhost:3001
+   ```
+5. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
