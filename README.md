@@ -2,6 +2,9 @@
 
 [Play the Game](https://alina-guess-number.netlify.app)
 
+<h2>Video ▼</h2>
+[![Watch the video](https://files.fm/f/kasarsakw3)](https://youtu.be/l3zCP87VFII)
+
 ## 📋 Objective
 
 Welcome to the Guess the Number game! This is a thrilling game based on random number generation, where each round offers a new challenge. The objective is simple: observe the rising Multiplier value, predict when it will freeze, and place your points based on that prediction.
