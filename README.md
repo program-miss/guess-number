@@ -40,6 +40,8 @@ Communicate with other players in real-time using the chat box. Share strategies
 
 To start playing locally, follow these steps:
 
+## Frontend
+
 1. **Navigate to the client directory:**
    ```bash
    cd client
@@ -52,11 +54,41 @@ To start playing locally, follow these steps:
    ```bash
    npm run build
    ```
-4. **Create .env file and put this line**:
+4. **Create .env file and put URL**:
    ```bash
-   NEXT_PUBLIC_SERVER_URL=http://localhost:3001
+   NEXT_PUBLIC_SERVER_URL=
    ```
-5. **Run the development server:**
+5. **Run:**
    ```bash
    npm run dev
+   ```
+
+## Backend
+
+1. **Navigate to the server directory:**
+   ```bash
+   cd server
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Build the application:**
+   ```bash
+   npm run build
+   ```
+4. **Create .env file and put URLs**:
+   ```bash
+   CLIENT_URL=
+   DATABASE_URL=
+   ```
+5. Create and fill in the database with
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev
+   npm run prisma:seed
+   ```
+6. **Run:**
+   ```bash
+   npm run start:dev
    ```
