@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { io } from 'socket.io-client';
 import { columnsRoundTable as columns, serverUrl } from '../../data';
 import {
+  ResultType,
   RoundData,
   RoundStatusType,
   RoundUpdatedResponse,
@@ -41,6 +42,13 @@ const RoundTable: React.FC = () => {
       );
     };
   }, [myData?.id, roundData?.status]);
+
+  const getClassName = (item: any): string => {
+    if (item.round.status === RoundStatusType.COMPLETED) {
+      return item.result === ResultType.WON ? 'td won' : 'td lost';
+    }
+    return 'td';
+  };
 
   useEffect(() => {
     socket.on(
@@ -81,7 +89,7 @@ const RoundTable: React.FC = () => {
         {tableData.map((item: any, index: number) => (
           <tr key={item.id || `empty-${index}`} className="tr">
             {columns.map((column) => (
-              <td key={column.key} className="td">
+              <td key={column.key} className={getClassName(item)}>
                 {getCellData(item, column.key)}
               </td>
             ))}
