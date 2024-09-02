@@ -79,6 +79,7 @@ To start playing locally, follow these steps:
    ```
 4. **Create .env file and put URLs**:
    ```bash
+   PORT=
    CLIENT_URL=
    DATABASE_URL=
    ```
